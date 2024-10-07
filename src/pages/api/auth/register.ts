@@ -7,7 +7,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(405).json({ message: 'Method not allowed' });
     }
 
-    const { username, password } = req.body;
+    const { username, password,role } = req.body;
 
     if (!username || !password) {
         return res.status(400).json({ message: 'Username and password are required' });
@@ -17,7 +17,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const hashedPassword = await bcrypt.hash(password, 10);
 
     try {
-        await authQuery('INSERT INTO users (username, password) VALUES (?, ?)', [username, hashedPassword]);
+        await authQuery('INSERT INTO users (username, password, role) VALUES (?, ?, ?)', [username, hashedPassword, role]);
         return res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
         console.error(error);

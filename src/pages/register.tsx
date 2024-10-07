@@ -13,6 +13,8 @@ const Register = () => {
         e.preventDefault();
         setMessage('');
 
+        console.log(username,password,role)
+
         try {
             const response = await axios.post('http://localhost:3000/api/auth/register', { username, password, role }); 
             setMessage('Registration successful!');
